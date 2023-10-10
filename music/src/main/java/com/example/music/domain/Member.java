@@ -1,0 +1,21 @@
+package com.example.music.domain;
+
+import lombok.*;
+
+import javax.persistence.*;
+
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Table(name = "member")
+public class Member{
+    @Id @GeneratedValue
+    @Column(name = "member_id")
+    private Integer id;
+
+    private String name;
+
+    private String accessToken;
+
+}
