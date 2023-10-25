@@ -1,4 +1,4 @@
-package com.example.music;
+package com.example.music.service;
 
 import com.example.music.config.exception.BaseException;
 import com.example.music.config.exception.errorcode.MemberErrorCode;
