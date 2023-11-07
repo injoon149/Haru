@@ -3,6 +3,7 @@ package com.example.music.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -14,7 +15,9 @@ public class Member{
     @Column(name = "member_id")
     private Integer id;
 
-    private String name;
+    @NotNull
+    private String password;
+    private String nickname;
 
     private String accessToken;
 

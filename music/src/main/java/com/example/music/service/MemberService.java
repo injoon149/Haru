@@ -22,7 +22,7 @@ public class MemberService {
     }
     private void validateDuplicateMember(Member member) {
         Optional<Member> findMembers =
-                memberRepository.findByName(member.getName());
+                memberRepository.findById(member.getId());
         if (!findMembers.isEmpty()) {
             throw new BaseException(MemberErrorCode.ALREADY_EXIST);
         }
