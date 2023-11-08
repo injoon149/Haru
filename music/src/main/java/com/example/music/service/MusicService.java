@@ -42,12 +42,10 @@ public class MusicService {
         String body = "";
 
         HttpEntity<String> requestEntity = new HttpEntity<String>(body, headers);
-        ResponseEntity<String> responseEntity = rest.exchange("https://api.spotify.com/v1/search?type=track&q=" + q, HttpMethod.GET, requestEntity, String.class);
+        ResponseEntity<String> responseEntity = rest.exchange("https://api.spotify.com/v1/search?year=2023&type=track&market=KR&limit=6&q=" + q, HttpMethod.GET, requestEntity, String.class);
         HttpStatus httpStatus = responseEntity.getStatusCode();
         int status = httpStatus.value(); //상태 코드가 들어갈 status 변수
         String response = responseEntity.getBody();
-        System.out.println("Response status: " + status);
-        System.out.println(response);
 
         return response;
     }
