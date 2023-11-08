@@ -9,10 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -24,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MusicController {
     private final MusicService musicService;
+
+    public List<String> feelingList = new ArrayList<>();
 
     @GetMapping("/musicSearch")
     @ResponseBody
@@ -51,6 +50,24 @@ public class MusicController {
         }
         return list;
     }
+
+    @GetMapping("/addList")
+    public List<String> addList(String feeling){
+        if(feelingList.size() == 7){
+            feelingList.remove(feelingList.get(0));
+            feelingList.add(feeling);
+        }
+        else feelingList.add(feeling);
+        return feelingList;
+    }
+
+    @GetMapping("/RecentFeeling")
+    public String RecentFeeling(){
+        return musicService.RecentFeeling(feelingList);
+    }
+
+
+
 
 
 }

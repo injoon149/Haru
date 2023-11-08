@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class MusicService {
@@ -48,6 +51,26 @@ public class MusicService {
         String response = responseEntity.getBody();
 
         return response;
+    }
+
+    public String RecentFeeling(List<String> feeling){
+        Map<String, Double> m = new HashMap<>();
+        for(int i = 0; i<feeling.size(); i++){
+            if(m.containsKey(feeling.get(i))){
+                m.put(feeling.get(i), m.get(feeling.get(i)) + (double)((3+i)/5));
+            }
+            else m.put(feeling.get(i), (double)(3+i)/5);
+        }
+        String maxKey = null;
+        Double maxValue = 0.0;
+        for(String key : m.keySet()){
+            if((m.get(key) > maxValue)){
+                maxValue = m.get(key);
+                maxKey = key;
+            }
+        }
+
+        return maxKey;
     }
 }
 
