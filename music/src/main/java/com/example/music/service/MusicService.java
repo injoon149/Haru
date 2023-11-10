@@ -10,9 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class MusicService {
@@ -45,32 +44,34 @@ public class MusicService {
         String body = "";
 
         HttpEntity<String> requestEntity = new HttpEntity<String>(body, headers);
-        ResponseEntity<String> responseEntity = rest.exchange("https://api.spotify.com/v1/search?year=2023&type=track&market=KR&limit=6&q=" + q, HttpMethod.GET, requestEntity, String.class);
+        ResponseEntity<String> responseEntity = rest.exchange("https://api.spotify.com/v1/search?year=2023&type=track&market=KR&limit=10&q=" + q, HttpMethod.GET, requestEntity, String.class);
         HttpStatus httpStatus = responseEntity.getStatusCode();
         int status = httpStatus.value(); //상태 코드가 들어갈 status 변수
         String response = responseEntity.getBody();
 
         return response;
     }
-
     public String RecentFeeling(List<String> feeling){
-        Map<String, Double> m = new HashMap<>();
-        for(int i = 0; i<feeling.size(); i++){
-            if(m.containsKey(feeling.get(i))){
-                m.put(feeling.get(i), m.get(feeling.get(i)) + (double)((3+i)/5));
+        double feelNum = 1;
+        System.out.println(feeling.size());
+        for(int i = 0; i<feeling.size(); i++)
+        {
+            if(feeling.get(i).equals("happy"))
+            {
+                feelNum *= 2;
             }
-            else m.put(feeling.get(i), (double)(3+i)/5);
+            else if(Objects.equals(feeling.get(i), "sad")) feelNum *= 0.3;
+            else if(Objects.equals(feeling.get(i), "tired")) feelNum *= 0.5;
+            else if(Objects.equals(feeling.get(i), "peaceful")) feelNum *= 1;
+            else if(Objects.equals(feeling.get(i), "excited")) feelNum *= 3;
+            else if(Objects.equals(feeling.get(i), "angry")) feelNum *= 0.2;
         }
-        String maxKey = null;
-        Double maxValue = 0.0;
-        for(String key : m.keySet()){
-            if((m.get(key) > maxValue)){
-                maxValue = m.get(key);
-                maxKey = key;
-            }
+        double logValue = Math.log(feelNum);
+        if(logValue <0.0)
+        {
+            return "sad";
         }
-
-        return maxKey;
+        else return "happy";
     }
 }
 

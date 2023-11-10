@@ -45,7 +45,6 @@ public class MusicController {
             MusicDto dto = new MusicDto();
             dto.setArtist(artistbody.get("name").toString());
             dto.setTitle(albumbody.get("name").toString());
-//            dto.setYear(albumbody.get("release_date").toString());
             list.add(dto);
         }
         return list;
