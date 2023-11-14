@@ -3,7 +3,6 @@ package com.example.music.controller;
 
 import com.example.music.dto.MusicDto;
 import com.example.music.service.MusicService;
-import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
