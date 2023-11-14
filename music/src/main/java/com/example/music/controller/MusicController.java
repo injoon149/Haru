@@ -51,7 +51,7 @@ public class MusicController {
 
     @GetMapping("/addList")
     public List<String> addList(String feeling){
-        if(feelingList.size() == 7){
+        if(feelingList.size() == 10){
             feelingList.remove(feelingList.get(0));
             feelingList.add(feeling);
         }
@@ -66,8 +66,10 @@ public class MusicController {
     }
 
     @GetMapping("/RecentFeeling")
-    public String RecentFeeling(){
-        return musicService.RecentFeeling(feelingList);
+    public List<String> RecentFeeling(){
+        List<String> newList = new ArrayList<>();
+        newList.add(musicService.RecentFeeling(feelingList));
+        return newList;
     }
 
 
