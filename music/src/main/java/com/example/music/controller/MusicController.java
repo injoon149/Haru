@@ -3,6 +3,7 @@ package com.example.music.controller;
 
 import com.example.music.dto.MusicDto;
 import com.example.music.service.MusicService;
+import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -28,23 +29,22 @@ public class MusicController {
     @ResponseBody
     public List<MusicDto> musicSearch(@RequestParam("genre") String q) throws ParseException {
         String musicInfo = musicService.search(musicService.accesstoken(), q);
-        //Json Parsing해서 원하는 데이터 추출 필요.
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = (JSONObject) jsonParser.parse(musicInfo);
         JSONObject trackbody = (JSONObject) jsonObject.get("tracks");
-        System.out.println("trackbody = " + trackbody);
         List<MusicDto> list = new ArrayList<>();
-        for(int i = 0; i< 4; i++){
-            //JSONObject trackbody = (JSONObject) track.get(i);
+        for(int i = 0; i< 6; i++){
             JSONArray itembody = (JSONArray) trackbody.get("items");
             JSONObject albumbody = (JSONObject) itembody.get(i);
-            System.out.println("albumbody = " + albumbody);
-
+            JSONObject album = (JSONObject)albumbody.get("album");
+            JSONArray images = (JSONArray) album.get("images");
+            JSONObject imageObject = (JSONObject) images.get(0);
             JSONArray artist = (JSONArray) albumbody.get("artists");
             JSONObject artistbody = (JSONObject) artist.get(0);
             MusicDto dto = new MusicDto();
             dto.setArtist(artistbody.get("name").toString());
             dto.setTitle(albumbody.get("name").toString());
+            dto.setUrl(imageObject.get("url").toString());
             list.add(dto);
         }
         return list;
@@ -58,6 +58,12 @@ public class MusicController {
         }
         else feelingList.add(feeling);
         return feelingList;
+    }
+
+    @GetMapping("/deleteList")
+    public String deleteList(){
+        feelingList.clear();
+        return "success";
     }
 
     @GetMapping("/RecentFeeling")

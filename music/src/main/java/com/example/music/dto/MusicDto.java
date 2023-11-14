@@ -7,4 +7,6 @@ import lombok.Setter;
 public class MusicDto {
     String Artist;
     String Title;
+
+    String url;
 }
